@@ -29,7 +29,6 @@ const char *get_user(void) {
 
 void organizeFile(const char* file_dir) {
     printf("Organizing files...");
-    if (file_dir )
     printf("Files organized!");  
 }
 

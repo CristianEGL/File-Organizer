@@ -34,12 +34,14 @@ void organizeFile(const char* file_dir) {
 }
 
 const char *get_file_extension(const char *file) {
-    char *extension = strrchr(file, ".");
+    const char *extension = strrchr(file, ".");
+    const char *file_extension = malloc(strlen(extension));
 
     if (!extension || extension == file) {
-      perror("Extension is not valid.");
+        free(file_extension);
+        perror("Extension is not valid.");
     } else {
-        const char *extension = extension + 1;
-        return extension;
+        file_extension = strcpy(file_extension, extension);
+        return file_extension;
     }
 }

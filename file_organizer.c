@@ -7,18 +7,22 @@
 
 const char *get_user(void);
 const char *get_file_extension(const char *file);
+int is_valid_file(const char *file_dir);
+
+const int MAX_USER_LENGTH = 256 + 1;
 
 int main (int argc, char **argv) {
     const char *user = get_user();
     char *dir_list[MAX_PATH + 1];
 
-    printf("%s", get_file_extension("something.txt"));
+    printf("%s\n", get_file_extension("something.txt\n"));
+    printf("%i\n", is_valid_file("C:\\Users\\crist\\Desktop\\does this work\\pretty_pl"));
 
     return 0;
 }
 
 const char *get_user(void) {
-    char *username = malloc(sizeof(char) * (256 + 1));
+    char *username = malloc(sizeof(char) * (MAX_USER_LENGTH));
     if (username == NULL) {
         printf("Memory allocation for user failed.\n");
 
@@ -65,5 +69,14 @@ const char *get_file_extension(const char *file) {
 }
 
 int is_valid_file(const char *file_dir) {
+    FILE *file = fopen(file_dir, "r");
 
+    if (file_dir == NULL) {
+        printf("File could not be opened/found.\n");
+
+        return 0;
+    }
+
+    fclose(file);
+    return 1;
 }

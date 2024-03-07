@@ -1,6 +1,11 @@
-#include "list_functions.h"
 #include <windows.h>
+#include <tchar.h> 
+#include <stdio.h>
+#include <strsafe.h>
+#pragma comment(lib, "User32.lib")
 
+void DisplayErrorBox(LPTSTR lpszFunction);
+int list_files(const char *file_dir);
 
 int list_files(const char *file_dir) {
     WIN32_FIND_DATA file_data;
@@ -8,7 +13,7 @@ int list_files(const char *file_dir) {
     TCHAR szDir[MAX_PATH];
     size_t length_of_path;
     HANDLE hFind = INVALID_HANDLE_VALUE;
-    DWORD dwError=0;
+    DWORD dwError = 0;
 
     StringCchLength(file_dir, MAX_PATH, &length_of_path);
 
@@ -29,7 +34,7 @@ int list_files(const char *file_dir) {
    
     do {
        if (file_data.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) {
-         tprintf(TEXT("  %s   <DIR>\n"), file_data.cFileName);
+         _tprintf(TEXT("  %s   <DIR>\n"), file_data.cFileName);
        } else {
           filesize.LowPart = file_data.nFileSizeLow;
           filesize.HighPart = file_data.nFileSizeHigh;
@@ -45,4 +50,35 @@ int list_files(const char *file_dir) {
 
     FindClose(hFind);
     return dwError;
+}
+
+void DisplayErrorBox(LPTSTR lpszFunction) { 
+    // Retrieve the system error message for the last-error code
+
+    LPVOID lpMsgBuf;
+    LPVOID lpDisplayBuf;
+    DWORD dw = GetLastError(); 
+
+    FormatMessage(
+        FORMAT_MESSAGE_ALLOCATE_BUFFER | 
+        FORMAT_MESSAGE_FROM_SYSTEM |
+        FORMAT_MESSAGE_IGNORE_INSERTS,
+        NULL,
+        dw,
+        MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
+        (LPTSTR) &lpMsgBuf,
+        0, NULL );
+
+    // Display the error message and clean up
+
+    lpDisplayBuf = (LPVOID)LocalAlloc(LMEM_ZEROINIT, 
+        (lstrlen((LPCTSTR)lpMsgBuf)+lstrlen((LPCTSTR)lpszFunction)+40)*sizeof(TCHAR)); 
+    StringCchPrintf((LPTSTR)lpDisplayBuf, 
+        LocalSize(lpDisplayBuf) / sizeof(TCHAR),
+        TEXT("%s failed with error %d: %s"), 
+        lpszFunction, dw, lpMsgBuf); 
+    MessageBox(NULL, (LPCTSTR)lpDisplayBuf, TEXT("Error"), MB_OK); 
+
+    LocalFree(lpMsgBuf);
+    LocalFree(lpDisplayBuf);
 }

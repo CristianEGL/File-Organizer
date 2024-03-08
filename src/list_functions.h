@@ -1,10 +1,14 @@
 #include <windows.h>
 
-const char *list_files(const char *file_dir);
-void DisplayErrorBox(LPTSTR lpszFunction);
+typedef struct conditionDirectory {
+    char *dir;
+    int condition;
+} conditionDirectory;
 
-typedef struct {     
-    char *file_dir;                                           
-    char *conditions;
-} conditionDirectory; 
+void DisplayErrorBox(LPTSTR lpszFunction);
+const char *list_files(const char *file_dir);
+int sortDirListAlpha(conditionDirectory *dirList);
+const char *get_user(void);
+
+
 

@@ -9,6 +9,9 @@
 void DisplayErrorBox(LPTSTR lpszFunction);
 const char *list_files(const char *file_dir);
 int sortDirListAlpha(conditionDirectory *dirList);
+const char *get_user(void);
+
+const int MAX_USER_LENGTH = 256 + 1;
 
 const char *list_files(const char *file_dir) {
     WIN32_FIND_DATA file_data;
@@ -52,10 +55,27 @@ const char *list_files(const char *file_dir) {
     }
 
     FindClose(hFind);
-    return dwError;
+    return file_dir; //temporary return value
 }
 
+const char *get_user(void) {
+    char *username = malloc(sizeof(char) * (MAX_USER_LENGTH));
+    if (username == NULL) { 
+        printf("Memory allocation for user failed.\n");
+        return NULL;
+    }
 
+    DWORD username_length = sizeof(username);
+
+    if (GetUserName(username, &username_length)) { 
+        return username;
+    } else {
+        free(username);
+        printf("User could not be found. Please try again.\n");
+
+        return NULL;
+    }
+}
 
 void DisplayErrorBox(LPTSTR lpszFunction) { 
     // Retrieve the system error message for the last-error code
@@ -89,10 +109,6 @@ void DisplayErrorBox(LPTSTR lpszFunction) {
 }
 
 int sortDirListAlpha(conditionDirectory *dirList) {
-    if (list_files(dirList) == NULL) {
-        printf("File list could not be found.\n");
-        return -1;
-    }
 
     return 0;
 }

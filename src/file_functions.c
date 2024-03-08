@@ -33,9 +33,8 @@ const char *get_file_extension(const char *file) {
         return extension; 
     } 
 }
-    int is_valid_file(const char *file_dir) {
+int is_valid_file(const char *file_dir) {
     FILE *file = fopen(file_dir, "r");
-
     if (file == NULL) {
         printf("File could not be opened/found.\n");
         return 0;

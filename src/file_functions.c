@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <string.h>
-#include "file_functions.h"
-#include "list_functions.h"
+#include "..\include\file_functions.h"
+#include "..\include\list_functions.h"
 
 void organizeFile(const char* file_dir);
 const char *get_file_extension(const char *file);

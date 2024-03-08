@@ -42,7 +42,7 @@ Sorcerer's Stash is a powerful file organizing tool designed to help users manag
 
 ## Support
 
-For any questions, feedback, or technical assistance, please contact me at cristianfumagal07@gmail.com.
+If you need help with something, contact me in Discord (@clankyu)!
 
 ---
 
@@ -50,6 +50,6 @@ For any questions, feedback, or technical assistance, please contact me at crist
 ## Note
 
 This is a small project made moslty for fun by a high school student but hopefully you find it useful :)
-Also, if you have any doubts or suggestions, again, make sure to contact me at cristianfumagal07@gmail.com
+Also, if you have any doubts or suggestions, again, make sure to contact me in Discord (@clankyu)! 
 
 ---

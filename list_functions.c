@@ -1,13 +1,16 @@
 #include <windows.h>
-#include <tchar.h> 
+#include <tchar.h>
 #include <stdio.h>
 #include <strsafe.h>
+#include "list_functions.h"
+#include "file_functions.h"
 #pragma comment(lib, "User32.lib")
 
 void DisplayErrorBox(LPTSTR lpszFunction);
-int list_files(const char *file_dir);
+const char *list_files(const char *file_dir);
+int sortDirListAlpha(conditionDirectory *dirList);
 
-int list_files(const char *file_dir) {
+const char *list_files(const char *file_dir) {
     WIN32_FIND_DATA file_data;
     LARGE_INTEGER filesize;
     TCHAR szDir[MAX_PATH];
@@ -19,7 +22,7 @@ int list_files(const char *file_dir) {
 
     if (length_of_path > (MAX_PATH - 3)) {
       _tprintf(TEXT("\nDirectory path is too long.\n"));
-       return (-1);
+       return NULL; 
     }
 
     StringCchCopy(szDir, MAX_PATH, file_dir);
@@ -29,9 +32,9 @@ int list_files(const char *file_dir) {
 
     if (INVALID_HANDLE_VALUE == hFind) {
        DisplayErrorBox(TEXT("FindFirstFile"));
-       return dwError;
-    } 
-   
+       return NULL; 
+    }
+     
     do {
        if (file_data.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) {
          _tprintf(TEXT("  %s   <DIR>\n"), file_data.cFileName);
@@ -51,6 +54,8 @@ int list_files(const char *file_dir) {
     FindClose(hFind);
     return dwError;
 }
+
+
 
 void DisplayErrorBox(LPTSTR lpszFunction) { 
     // Retrieve the system error message for the last-error code
@@ -81,4 +86,13 @@ void DisplayErrorBox(LPTSTR lpszFunction) {
 
     LocalFree(lpMsgBuf);
     LocalFree(lpDisplayBuf);
+}
+
+int sortDirListAlpha(conditionDirectory *dirList) {
+    if (list_files(dirList) == NULL) {
+        printf("File list could not be found.\n");
+        return -1;
+    }
+
+    return 0;
 }

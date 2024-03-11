@@ -1,0 +1,1 @@
+const char *INVALID_LENGTH = "Invalid argument length.";

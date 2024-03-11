@@ -7,7 +7,7 @@ include_directories(include)
 set(CMAKE_C_STANDARD 99)
 set(CMAKE_C_STANDARD_REQUIRED TRUE)
 
-set(SOURCE_FILES src/sorcerers-stash.c src/list_functions.c src/file_functions.c)
+set(SOURCE_FILES src/sorcerers-stash.c src/list_functions.c src/file_functions.c utils/errorLogging.c)
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR})
 
